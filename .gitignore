@@ -1,0 +1,20 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Secrets - never commit API keys
+.env
+
+# Generated output (videos, transcripts, metadata)
+projects/
+
+# Local tooling / OS / editor files
+.claude/
+.vscode/
+.idea/
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

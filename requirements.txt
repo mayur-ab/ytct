@@ -1,0 +1,5 @@
+flask>=3.0
+yt-dlp[default]>=2025.11.12
+requests>=2.31
+python-dotenv>=1.0
+anthropic>=1.0

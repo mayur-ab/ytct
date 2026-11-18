@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ytct · YouTube → Shorts</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" id="homeLink"><span class="logo">▶</span> ytct <span class="muted">YouTube → Shorts</span></a>
+    <div class="topbar-right">
+      <span id="keyPill" class="pill">checking…</span>
+      <button class="btn ghost" id="settingsBtn">Settings</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="homeView">
+      <form id="jobForm" class="card">
+        <div class="url-row">
+          <input id="url" type="url" placeholder="Paste a YouTube video URL…" required autocomplete="off">
+          <button class="btn primary" type="submit">Create shorts</button>
+        </div>
+        <div class="options">
+          <label>Clip length (s)<input id="clipSeconds" type="number" min="5" max="180" value="30"></label>
+          <label>Framing
+            <select id="mode">
+              <option value="crop">Fill (center crop)</option>
+              <option value="blur">Fit (blurred background)</option>
+            </select>
+          </label>
+          <label>Transcript
+            <select id="transcriber">
+              <option value="auto">Auto</option>
+              <option value="groq">Groq Whisper</option>
+              <option value="youtube">YouTube captions</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+          <label>Max shorts<input id="maxClips" type="number" min="0" value="0" title="0 = all"></label>
+          <label>From<input id="start" type="text" placeholder="0:00"></label>
+          <label>To<input id="end" type="text" placeholder="end"></label>
+          <label class="check"><input id="metadata" type="checkbox" checked> AI title / tags</label>
+        </div>
+        <p id="formError" class="error hidden"></p>
+      </form>
+
+      <div id="jobsCard" class="card hidden">
+        <h2>Jobs</h2>
+        <div id="jobs"></div>
+      </div>
+
+      <div class="card">
+        <h2>Projects</h2>
+        <div id="projects" class="projects"></div>
+      </div>
+    </section>
+
+    <!-- PROJECT -->
+    <section id="projectView" class="hidden">
+      <div class="project-head">
+        <button class="btn ghost" id="backBtn">← Back</button>
+        <div class="project-title">
+          <h1 id="pTitle"></h1>
+          <div class="muted" id="pMeta"></div>
+        </div>
+        <div class="project-actions">
+          <select id="sortBy" title="Sort shorts">
+            <option value="index">Sort: timeline</option>
+            <option value="score">Sort: best score</option>
+          </select>
+          <button class="btn" id="openFolderBtn">Open folder</button>
+        </div>
+      </div>
+      <div id="shorts" class="shorts"></div>
+    </section>
+  </main>
+
+  <!-- SETTINGS -->
+  <dialog id="settingsDlg">
+    <form method="dialog" id="settingsForm">
+      <h2>Settings</h2>
+      <p class="muted small">Saved to the local <code>.env</code> file. Set either key (or both). Titles, descriptions and tags use Claude or Groq. Whisper transcripts need a Groq key; without one, YouTube captions are used.</p>
+      <label>Use for title / description / tags
+        <select id="setProvider">
+          <option value="auto">Auto: whichever key is set (Claude if both are)</option>
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="groq">Groq</option>
+        </select>
+      </label>
+      <label>Anthropic API key<input id="setAnthropicKey" type="password" autocomplete="off"></label>
+      <label>Claude model<input id="setAnthropicModel" type="text"></label>
+      <label>Groq API key<input id="setKey" type="password" autocomplete="off"></label>
+      <label>Groq LLM model<input id="setModel" type="text"></label>
+      <label>Groq Whisper model<input id="setWhisper" type="text"></label>
+      <p class="muted small">Output folder: <code id="setOut"></code></p>
+      <div class="dlg-actions">
+        <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn primary" id="saveSettings" value="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
